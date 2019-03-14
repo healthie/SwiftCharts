@@ -154,6 +154,11 @@ open class ChartPointsViewsLayer<T: ChartPoint, U: UIView>: ChartPointsLayer<T> 
             updateChartPointsScreenLocations()
             
         case .translate:
+            if viewsWithChartPoints.count == 1 {
+                viewsWithChartPoints[0].chartPointModel.screenLoc = CGPoint(x: viewsWithChartPoints[0].chartPointModel.screenLoc.x.isNaN ? 125.0 : viewsWithChartPoints[0].chartPointModel.screenLoc.x, y: CGFloat(viewsWithChartPoints[0].chartPointModel.chartPoint.y.scalar))
+                viewsWithChartPoints[0].view.center = viewsWithChartPoints[0].chartPointModel.screenLoc
+                return
+            }
             for i in 0..<viewsWithChartPoints.count {
                 viewsWithChartPoints[i].chartPointModel.screenLoc = modelLocToScreenLoc(x: viewsWithChartPoints[i].chartPointModel.chartPoint.x.scalar, y: viewsWithChartPoints[i].chartPointModel.chartPoint.y.scalar)
                 viewsWithChartPoints[i].view.center = viewsWithChartPoints[i].chartPointModel.screenLoc
